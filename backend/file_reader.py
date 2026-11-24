@@ -100,6 +100,7 @@ def office_preview(content, suffix):
 P = '{http://schemas.openxmlformats.org/presentationml/2006/main}'
 A = '{http://schemas.openxmlformats.org/drawingml/2006/main}'
 R = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
+C = '{http://schemas.openxmlformats.org/drawingml/2006/chart}'
 SLIDE_IMAGES = {'.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif',
                 '.bmp': 'image/bmp', '.webp': 'image/webp', '.svg': 'image/svg+xml'}
 
@@ -199,6 +200,46 @@ def slides_preview(archive, xml):
                 if letter and points:commands.append(letter + ' '.join(points))
                 elif name == 'close':commands.append('Z')
         return ' '.join(commands)[:20000] or None
+    def arrow(line, side):
+        # headEnd marks the line's start point and tailEnd its end point.
+        node = line.find(A+side+'End') if line is not None else None
+        if node is None or node.get('type', 'none') == 'none':return None
+        return {'type': node.get('type'), 'w': node.get('w', 'med'), 'len': node.get('len', 'med')}
+    def chart(item, frame, source):
+        """Bar, line and scatter charts drawn from the values cached in the chart part."""
+        node = frame.find('.//'+C+'chart'); target = relations(source).get(node.get(R+'id')) if node is not None else None
+        tree = part(target[0]) if target else None; plot = tree.find('.//'+C+'plotArea') if tree is not None else None
+        group = next((g for g in (plot if plot is not None else []) if g.tag.rsplit('}', 1)[-1] in {'barChart', 'lineChart', 'scatterChart'}), None)
+        if group is None:return dict(item, kind='missing', label='Chart')
+        def cache(node):
+            points = {number(p.get('idx')): p.findtext(C+'v') for p in (node.iter(C+'pt') if node is not None else [])}
+            count = node.find('.//'+C+'ptCount') if node is not None else None
+            return [points.get(i) for i in range(min(200, number(count.get('val')) if count is not None else len(points)))]
+        def values(node):
+            result = []
+            for value in cache(node):
+                try:result.append(float(value))
+                except (TypeError, ValueError):result.append(None)
+            return result
+        shown = lambda owner: owner is not None and owner.find(C+'dLbls/'+C+'showVal') is not None and owner.find(C+'dLbls/'+C+'showVal').get('val') == '1'
+        def label(value, owner):
+            code = next((n.get('formatCode', '') for n in (owner.find(C+'dLbls/'+C+'numFmt'), group.find(C+'dLbls/'+C+'numFmt')) if n is not None), '')
+            decimals = len(re.search(r'\.(0+)', code).group(1)) if re.search(r'\.(0+)', code) else 0 if code else 2
+            suffix = ''.join(re.findall(r'"([^"]*)"', code)) + ('%' if code.rstrip().endswith('%') else '')
+            return None if value is None else ('%.*f' % (decimals, value)).rstrip('0').rstrip('.') if not code else '%.*f%s' % (decimals, value, suffix)
+        series = []
+        for index, entry in enumerate(group.findall(C+'ser')[:12]):
+            tint = fill(entry.find(C+'spPr'), None) or color(entry.find(C+'spPr/'+A+'ln/'+A+'solidFill')) or '#' + (scheme.get('accent%d' % (index % 6 + 1)) or '4472C4')
+            name = ''.join(v or '' for v in cache(entry.find(C+'tx')))
+            if group.tag.endswith('}scatterChart'):x, y = values(entry.find(C+'xVal')), values(entry.find(C+'yVal'))
+            else:x, y = None, values(entry.find(C+'val'))
+            labels = [label(v, entry) for v in y] if shown(entry) or shown(group) else None
+            series.append({'name': name, 'color': tint, 'x': x, 'values': y, 'labels': labels})
+        first = group.find(C+'ser/'+C+'cat')
+        size = next((number(n.get('sz')) / 100 for n in tree.iter(A+'defRPr') if n.get('sz')), 10)
+        direction = group.find(C+'barDir')
+        return dict(item, kind='chart', chart=group.tag.rsplit('}', 1)[-1][:-5], horizontal=direction is not None and direction.get('val') == 'bar',
+                    categories=[v or '' for v in cache(first)], series=series, legend=tree.find('.//'+C+'legend') is not None, size=size)
     def walk(tree, source, transform, items, media, inherit, placeholders=True, slide_number=1):
         for shape in shapes(tree):
             kind = shape.tag.rsplit('}', 1)[-1]
@@ -231,7 +272,7 @@ def slides_preview(archive, xml):
             if kind == 'cxnSp' or prst in {'line', 'straightConnector1'}:
                 items.append(dict(item, kind='line', color=stroke or '#000000', width=max(.5, number(line.get('w') if line is not None else '', 9525) / 12700),
                                   dash=dash, route='elbow' if prst.startswith('bentConnector') else 'curve' if prst.startswith('curvedConnector') else 'straight',
-                                  flip_x=frame.get('flipH') == '1', flip_y=frame.get('flipV') == '1'));continue
+                                  flip_x=frame.get('flipH') == '1', flip_y=frame.get('flipV') == '1', head=arrow(line, 'head'), tail=arrow(line, 'tail')));continue
             if kind == 'pic':items.append(picture(item, shape.find('.//'+A+'blip'), source, media));continue
             if properties is not None and properties.find(A+'blipFill/'+A+'blip') is not None:
                 items.append(picture(item, properties.find(A+'blipFill/'+A+'blip'), source, media))
@@ -239,6 +280,7 @@ def slides_preview(archive, xml):
                 table = shape.find('.//'+A+'tbl')
                 if table is None:
                     content = shape.find('.//'+A+'graphicData'); uri = content.get('uri', '') if content is not None else ''
+                    if uri.endswith('/chart'):items.append(chart(item, shape, source));continue
                     items.append(dict(item, kind='missing', label='Chart' if 'chart' in uri else 'Diagram' if 'diagram' in uri else 'Object'));continue
                 rows, merges, size = [], [], None
                 for r, row in enumerate(table.findall(A+'tr')):

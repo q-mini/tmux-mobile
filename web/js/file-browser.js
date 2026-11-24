@@ -89,14 +89,63 @@
    const deck=node('div','','file-slides'),urls={},font=value=>'calc('+value+' * 100cqw / var(--slide-pt))';body.append(deck);
    // Outlines stretch with their box; non-scaling strokes keep the slide's line width.
    const outline=(d,size,fill,stroke,width,dash)=>{const svg=document.createElementNS('http://www.w3.org/2000/svg','svg'),path=document.createElementNS('http://www.w3.org/2000/svg','path');svg.setAttribute('viewBox','0 0 '+size+' '+size);svg.setAttribute('preserveAspectRatio','none');svg.classList.add('file-slide-outline');path.setAttribute('d',d);path.setAttribute('fill',fill||'none');path.setAttribute('stroke',stroke||'none');path.setAttribute('vector-effect','non-scaling-stroke');path.style.strokeWidth=font(width);if(dash)path.style.strokeDasharray=font(width*4)+' '+font(width*3);svg.append(path);return svg};
+   const shape=(tag,attributes={})=>{const element=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [key,value]of Object.entries(attributes))element.setAttribute(key,value);return element};
+   // Lines are drawn in slide units over the whole canvas, because a horizontal or vertical line has a zero-size box.
+   const line=item=>{
+    const W=data.width,H=data.height,x=item.x*W,y=item.y*H,w=item.w*W,h=item.h*H,[u1,u2]=item.flip_x?[1,0]:[0,1],[v1,v2]=item.flip_y?[1,0]:[0,1],at=(u,v)=>[x+u*w,y+v*h];
+    const points=item.route==='elbow'?[at(u1,v1),at(.5,v1),at(.5,v2),at(u2,v2)]:item.route==='curve'?[at(u1,v1),at(.5,v1),at(.5,v2),at(u2,v2)]:[at(u1,v1),at(u2,v2)];
+    const svg=shape('svg',{viewBox:`0 0 ${W} ${H}`,preserveAspectRatio:'none',class:'file-slide-line'}),group=shape('g',item.rotate?{transform:`rotate(${item.rotate} ${x+w/2} ${y+h/2})`}:{}),stroke=item.width*12700,scale={sm:2,med:3,lg:5};
+    // Arrowheads scale with the line width, as in PowerPoint; filled heads pull the line end back so its butt stays inside the head.
+    const end=(tip,others,spec)=>{
+     if(!spec)return tip;const from=others.find(p=>Math.hypot(p[0]-tip[0],p[1]-tip[1])>1);if(!from)return tip;
+     const length=Math.hypot(tip[0]-from[0],tip[1]-from[1]),dx=(tip[0]-from[0])/length,dy=(tip[1]-from[1])/length,L=stroke*(scale[spec.len]||3),B=stroke*(scale[spec.w]||3)/2,P=(a,b)=>[tip[0]-a*dx-b*dy,tip[1]-a*dy+b*dx].join(',');
+     const kind=spec.type,mark=kind==='oval'?shape('ellipse',{cx:tip[0],cy:tip[1],rx:L/2,ry:B}):kind==='diamond'?shape('polygon',{points:[P(-L/2,0),P(0,B),P(L/2,0),P(0,-B)].join(' ')}):kind==='arrow'?shape('polyline',{points:[P(L,B),P(0,0),P(L,-B)].join(' ')}):shape('polygon',{points:(kind==='stealth'?[P(0,0),P(L,B),P(L*.6,0),P(L,-B)]:[P(0,0),P(L,B),P(L,-B)]).join(' ')});
+     if(kind==='arrow'){mark.setAttribute('fill','none');mark.setAttribute('stroke',item.color);mark.setAttribute('vector-effect','non-scaling-stroke');mark.style.strokeWidth=font(item.width)}else mark.setAttribute('fill',item.color);
+     group.append(mark);return kind==='oval'||kind==='diamond'||kind==='arrow'?tip:[tip[0]-dx*L*.5,tip[1]-dy*L*.5];
+    };
+    const last=points.length-1,start=end(points[0],points.slice(1),item.head),finish=end(points[last],points.slice(0,last).reverse(),item.tail);points[0]=start;points[last]=finish;
+    const path=shape('path',{d:item.route==='curve'?`M${points[0]} C${points[1]} ${points[2]} ${points[3]}`:'M'+points.join(' L'),fill:'none',stroke:item.color,'vector-effect':'non-scaling-stroke'});
+    path.style.strokeWidth=font(item.width);if(item.dash)path.style.strokeDasharray=font(item.width*4)+' '+font(item.width*3);group.prepend(path);svg.append(group);return svg;
+   };
+   // Charts are drawn from the values cached in the file, in points, so text keeps the chart's own font size.
+   const chart=item=>{
+    const W=item.w*data.width/12700,H=item.h*data.height/12700,fs=item.size||10,svg=shape('svg',{viewBox:`0 0 ${W} ${H}`,class:'file-slide-chart'}),series=item.series.filter(s=>s.values.some(v=>v!==null));
+    const text=(x,y,value,anchor='middle',size=fs)=>{const node=shape('text',{x,y,'text-anchor':anchor,'font-size':size,fill:'#404040'});node.textContent=value;svg.append(node)};
+    if(!series.length)return svg;let top=fs*.3;
+    if(item.legend&&series.length>1){const widths=series.map(s=>s.name.length*fs*.55+fs*1.8);let left=Math.max(0,(W-widths.reduce((a,b)=>a+b,0))/2);for(const [i,s]of series.entries()){svg.append(shape('rect',{x:left,y:top,width:fs*.75,height:fs*.75,fill:s.color}));text(left+fs,top+fs*.72,s.name,'start');left+=widths[i]}top+=fs*1.6}
+    const values=series.flatMap(s=>s.values.filter(v=>v!==null)),lo=Math.min(0,...values),hi=Math.max(0,...values),range=hi-lo||1,count=Math.max(item.categories.length,...series.map(s=>s.values.length));
+    if(item.chart==='scatter'){
+     const xs=series.flatMap(s=>(s.x||[]).filter(v=>v!==null)),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...values),y1=Math.max(...values),left=fs*.5,right=W-fs*.5,bottom=H-fs*1.5,ptop=top+fs;
+     const X=v=>left+(v-x0)/((x1-x0)||1)*(right-left),Y=v=>bottom-(v-y0)/((y1-y0)||1)*(bottom-ptop);svg.append(shape('line',{x1:left,y1:bottom,x2:right,y2:bottom,stroke:'#BFBFBF'}));text(left,H-fs*.3,String(x0),'start');text(right,H-fs*.3,String(x1),'end');
+     for(const s of series){const pts=s.values.map((v,i)=>v===null||s.x?.[i]==null?null:[X(s.x[i]),Y(v)]).filter(Boolean);svg.append(shape('polyline',{points:pts.join(' '),fill:'none',stroke:s.color,'stroke-width':fs*.12}));for(const p of pts)svg.append(shape('circle',{cx:p[0],cy:p[1],r:fs*.22,fill:s.color}))}
+     return svg;
+    }
+    if(item.horizontal){
+     const band=Math.min(W*.35,Math.max(...item.categories.map(c=>c.length))*fs*.55+fs*.5),left=band,right=W-fs*2.5,bottom=H-fs*.3,slot=(bottom-top)/count,bar=slot*.72/series.length,X=v=>left+(v-lo)/range*(right-left);
+     svg.append(shape('line',{x1:X(0),y1:top,x2:X(0),y2:bottom,stroke:'#BFBFBF'}));
+     for(let i=0;i<count;i++){const base=bottom-(i+1)*slot;text(band-fs*.3,base+slot/2+fs*.35,item.categories[i]||'','end');for(const [j,s]of series.entries()){const v=s.values[i];if(v===null||v===undefined)continue;const y=base+slot*.14+j*bar;svg.append(shape('rect',{x:Math.min(X(0),X(v)),y,width:Math.abs(X(v)-X(0)),height:bar,fill:s.color}));if(s.labels?.[i])text(X(v)+(v<0?-fs*.2:fs*.2),y+bar/2+fs*.3,s.labels[i],v<0?'end':'start',fs*.9)}}
+     return svg;
+    }
+    const left=fs*.3,right=W-fs*.3,bottom=H-fs*1.5,ptop=top+fs*1.2,slot=(right-left)/count,bar=slot*.72/series.length,Y=v=>bottom-(v-lo)/range*(bottom-ptop);
+    svg.append(shape('line',{x1:left,y1:Y(0),x2:right,y2:Y(0),stroke:'#BFBFBF'}));
+    for(let i=0;i<count;i++){const name=item.categories[i]||'';text(left+(i+.5)*slot,H-fs*.4,name,'middle',Math.min(fs,slot/Math.max(1,name.length*.55)))}
+    for(const [j,s]of series.entries()){
+     const pts=s.values.map((v,i)=>v===null?null:[item.chart==='line'?left+(i+.5)*slot:left+i*slot+slot*.14+j*bar+bar/2,Y(v),v,i]).filter(Boolean);
+     if(item.chart==='line'){svg.append(shape('polyline',{points:pts.map(p=>p[0]+','+p[1]).join(' '),fill:'none',stroke:s.color,'stroke-width':fs*.15}));for(const p of pts)svg.append(shape('circle',{cx:p[0],cy:p[1],r:fs*.25,fill:s.color}))}
+     else for(const p of pts)svg.append(shape('rect',{x:p[0]-bar/2,y:Math.min(Y(0),p[1]),width:bar,height:Math.abs(Y(0)-p[1]),fill:s.color}));
+     for(const p of pts)if(s.labels?.[p[3]])text(p[0],p[2]<0?p[1]+fs:p[1]-fs*.3,s.labels[p[3]],'middle',fs*.9);
+    }
+    return svg;
+   };
    const source=key=>{if(!urls[key]){const item=data.images[key];urls[key]=URL.createObjectURL(new Blob([Uint8Array.from(atob(item.data),c=>c.charCodeAt(0))],{type:item.type}));this.blobs.push(urls[key])}return urls[key]};
    for(const [index,slide]of data.slides.entries()){
     const figure=node('figure','','file-slide'),canvas=node('div','','file-slide-canvas');figure.append(node('figcaption',(index+1)+' / '+data.slides.length+(slide.hidden?' · '+t('숨긴 슬라이드'):'')),canvas);
     canvas.style.aspectRatio=data.width+' / '+data.height;canvas.style.background=slide.background;canvas.style.color=data.text_color;canvas.style.setProperty('--slide-pt',data.width/12700);
     for(const item of slide.items){
+     if(item.kind==='line'){canvas.append(line(item));continue}
      const box=node('div','','file-slide-item is-'+item.kind);Object.assign(box.style,{left:item.x*100+'%',top:item.y*100+'%',width:item.w*100+'%',height:item.h*100+'%'});if(item.rotate)box.style.transform='rotate('+item.rotate+'deg)';
      if(item.kind==='image'){const image=node('img');image.alt='';image.src=source(item.media);box.append(image)}
-     else if(item.kind==='line'){const [x1,x2]=item.flip_x?[100,0]:[0,100],[y1,y2]=item.flip_y?[100,0]:[0,100];box.append(outline({straight:`M${x1},${y1} L${x2},${y2}`,elbow:`M${x1},${y1} L50,${y1} L50,${y2} L${x2},${y2}`,curve:`M${x1},${y1} C50,${y1} 50,${y2} ${x2},${y2}`}[item.route]||`M${x1},${y1} L${x2},${y2}`,'100',null,item.color,item.width,item.dash))}
+     else if(item.kind==='chart')box.append(chart(item));
      else if(item.kind==='table'){box.style.fontSize=font(item.size);box.append(this.table(item.rows,null,item.merges))}
      else if(item.kind==='missing')box.append(node('span',item.label));
      else{

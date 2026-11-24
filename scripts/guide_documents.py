@@ -62,7 +62,7 @@ def hwp_document(blocks, flags=1):
 
 
 def slide_deck(path, slides, picture=b''):
-    """Write a 16:9 deck; each slide is a dict with title, bullets, table and picture."""
+    """Write a 16:9 deck; each slide is a dict with title, bullets, table, picture, arrow and chart (category -> value)."""
     p, a, r = ('http://schemas.openxmlformats.org/presentationml/2006/main', 'http://schemas.openxmlformats.org/drawingml/2006/main',
                'http://schemas.openxmlformats.org/officeDocument/2006/relationships')
     namespaces = 'xmlns:p="%s" xmlns:a="%s" xmlns:r="%s"' % (p, a, r)
@@ -95,6 +95,23 @@ def slide_deck(path, slides, picture=b''):
                            '<a:ext cx="5200000" cy="3600000"/><a:chOff x="0" y="0"/><a:chExt cx="2600000" cy="1800000"/></a:xfrm></p:grpSpPr>'
                            '<p:pic><p:nvPicPr><p:cNvPr id="6" name="Chart"/><p:cNvPicPr/><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="rId1"/></p:blipFill>'
                            '<p:spPr>%s</p:spPr></p:pic></p:grpSp>' % frame(0, 0, 2600000, 1800000))
+            if slide.get('arrow'):
+                # A horizontal connector has a zero-height frame.
+                shapes += ('<p:cxnSp><p:nvCxnSpPr><p:cNvPr id="7" name="Arrow"/><p:cNvCxnSpPr/><p:nvPr/></p:nvCxnSpPr><p:spPr>%s<a:prstGeom prst="line"/>'
+                           '<a:ln w="25400"><a:solidFill><a:srgbClr val="C00000"/></a:solidFill><a:tailEnd type="triangle" w="lg" len="lg"/></a:ln></p:spPr></p:cxnSp>' % frame(500000, 6200000, 3000000, 0))
+            links = [relationship('rId1', 'image', '../media/image1.png')] if slide.get('picture') and picture else []
+            if slide.get('chart'):
+                c = 'http://schemas.openxmlformats.org/drawingml/2006/chart'
+                cache = lambda values: '<c:ptCount val="%d"/>%s' % (len(values), ''.join('<c:pt idx="%d"><c:v>%s</c:v></c:pt>' % (i, v) for i, v in enumerate(values)))
+                shapes += ('<p:graphicFrame><p:nvGraphicFramePr><p:cNvPr id="8" name="Chart"/><p:cNvGraphicFramePr/><p:nvPr/></p:nvGraphicFramePr>'
+                           '<p:xfrm><a:off x="6400000" y="1400000"/><a:ext cx="5200000" cy="3600000"/></p:xfrm><a:graphic><a:graphicData uri="%s">'
+                           '<c:chart xmlns:c="%s" r:id="rId2"/></a:graphicData></a:graphic></p:graphicFrame>' % (c, c))
+                archive.writestr('ppt/charts/chart%d.xml' % index, '<c:chartSpace xmlns:c="%s" xmlns:a="%s"><c:chart><c:plotArea><c:barChart><c:barDir val="col"/>'
+                                 '<c:ser><c:tx><c:strRef><c:strCache>%s</c:strCache></c:strRef></c:tx><c:spPr><a:solidFill><a:srgbClr val="1F3864"/></a:solidFill></c:spPr>'
+                                 '<c:dLbls><c:numFmt formatCode="0.0"/><c:showVal val="1"/></c:dLbls><c:cat><c:strRef><c:strCache>%s</c:strCache></c:strRef></c:cat>'
+                                 '<c:val><c:numRef><c:numCache>%s</c:numCache></c:numRef></c:val></c:ser></c:barChart></c:plotArea></c:chart></c:chartSpace>'
+                                 % (c, a, cache(['WNS']), cache(list(slide['chart'])), cache(list(slide['chart'].values()))))
+                links.append(relationship('rId2', 'chart', '../charts/chart%d.xml' % index))
             archive.writestr('ppt/slides/slide%d.xml' % index, '<p:sld %s><p:cSld><p:spTree>%s</p:spTree></p:cSld></p:sld>' % (namespaces, shapes))
-            if slide.get('picture') and picture:
-                archive.writestr('ppt/slides/_rels/slide%d.xml.rels' % index, '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">%s</Relationships>' % relationship('rId1', 'image', '../media/image1.png'))
+            if links:
+                archive.writestr('ppt/slides/_rels/slide%d.xml.rels' % index, '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">%s</Relationships>' % ''.join(links))
