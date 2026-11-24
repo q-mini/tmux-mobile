@@ -266,6 +266,8 @@ function isOutputMeta(line){
 }
 function fitReaderTables(){TmuxReader.fitTables($('reader-content'));TmuxReader.fitTables($('reader-interaction'));if(follow)$('reader-scroll').scrollTop=$('reader-scroll').scrollHeight;}
 new ResizeObserver(fitReaderTables).observe($('reader-scroll'));
+// Pictures and previews finish loading after a render and grow the content; stay at the bottom while following.
+new ResizeObserver(()=>{if(follow&&!readerZooming&&!panelRestoring)$('reader-scroll').scrollTop=$('reader-scroll').scrollHeight;}).observe($('reader-content'));
 document.fonts.addEventListener('loadingdone',fitReaderTables);
 $('reader-content').addEventListener('toggle',event=>{
   if(event.target.tagName!=='DETAILS'||!event.target.open)return;
