@@ -67,15 +67,18 @@ const qLangAgentControls=globalThis.QI18n||{t:value=>value,html:value=>value,f:(
    if(match[1]==='$'&&(this.agent||this.state?.agent)!=='Codex')return null;
    const start=end-match[2].length-1;
    // Native slash commands belong at the start of the prompt. Skills may be
-   // mentioned in the body with Codex's $ prefix.
-   if(match[1]==='/'&&this.input.value.slice(0,start).trim())return null;
-   return {start,end,prefix:match[1],query:match[2].toLowerCase()};
+   // mentioned in the body with Codex's $ prefix or Claude's / prefix.
+   const inline=match[1]==='/'&&!!this.input.value.slice(0,start).trim();
+   if(inline&&(this.agent||this.state?.agent)!=='Claude')return null;
+   return {start,end,prefix:match[1],query:match[2].toLowerCase(),inline};
   }
   update(){
    const token=this.token();if(this.composing||document.activeElement!==this.input||!token){this.hide();return;}
    const previous=this.matches[this.index]?.insert,sameQuery=this.lastQuery===token.prefix+token.query;
-   this.matches=this.items.filter(item=>(token.prefix==='$'?item.kind==='skill':item.insert.startsWith('/'))&&(item.name.toLowerCase().includes(token.query)||(token.query&&(item.description||'').toLowerCase().includes(token.query))));
+   this.matches=this.items.filter(item=>(token.prefix==='$'||token.inline?item.kind==='skill':true)&&item.insert.startsWith(token.prefix)&&(item.name.toLowerCase().includes(token.query)||(token.query&&(item.description||'').toLowerCase().includes(token.query))));
    if(!this.matches.length){
+    // A slash inside the text may be a path; stay quiet unless a skill matches.
+    if(token.inline){this.hide();return;}
     this.caption.textContent=token.prefix==='$'?qLangAgentControls.t('스킬'):qLangAgentControls.t('명령');
     const text=this.loading?qLangAgentControls.t('불러오는 중…'):this.lastError||qLangAgentControls.t(this.agent?'일치하는 명령이나 스킬이 없어요.':'연결된 Codex·Claude를 확인해 주세요.');
     this.list.replaceChildren(node('p',text,'agent-completion-loading'));this.popup.hidden=false;this.position();this.input.setAttribute('aria-expanded','true');this.input.removeAttribute('aria-activedescendant');return;
