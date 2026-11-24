@@ -495,6 +495,11 @@ def with_user_attachments(item):
     if item.get('role') != 'user':
         return item
     text = item['text']
+    # Claude Code wraps pasted input in <pasted_content id="…"> … </pasted_content id="…">; show only what was pasted.
+    unwrapped = re.sub(r'</?pasted_content(?: id="[^"]*")?>\n?', '', text)
+    if unwrapped != text:
+        text = unwrapped.strip()
+        item = dict(item, text=text, plain=clean_text(text))
     match = re.search(r'(?:^|\n\n)첨부 파일 \(이 서버에 저장(?:된 임시 원본|됨)\):\n', text)
     if not match:
         return item
