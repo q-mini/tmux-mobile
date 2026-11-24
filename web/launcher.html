@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <style>#app-launcher.connection-only{box-sizing:border-box;position:fixed;inset:0;display:grid;place-content:center;justify-items:center;gap:13px;max-width:none;margin:0;padding:20px;background:#111316;color:#9daaba;text-align:center}#app-launcher.connection-only h1,#app-launcher.connection-only button,.connection-only~footer{display:none}#app-launcher.connection-only .app-mark{display:block;width:54px;height:54px;margin:0;border-radius:13px}#app-launcher.connection-only .identity{margin:0}#app-launcher.connection-only #launch-status{display:block;min-height:0;margin:0;font:12px/1.5 system-ui;letter-spacing:.15px;color:inherit}:root[data-theme=light] #app-launcher.connection-only{background:#eff3f7;color:#5b6d7f}body:has(.connection-only) .app-theme-floating{display:none}</style>
+  <meta name="theme-color" content="#080808">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Tmux mobile</title>
+  <script src="/static/js/i18n-en.js?v=20261123-account1"></script>
+  <script src="/static/js/i18n.js?v=20261124-default-en1"></script>
+  <script defer src="/static/js/i18n-boot.js?v=20261123-account1"></script>
+  <link rel="manifest" href="/static/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="/static/assets/icons/apple-touch-icon.png?v=blue-q1">
+  <link rel="stylesheet" href="/static/css/launcher.css?v=20261122-login1">
+  <link rel="stylesheet" href="/static/css/theme-light.css?v=20261105-lavender1" data-app-theme="light" media="not all">
+  <link rel="stylesheet" href="/static/css/theme-chrome.css?v=20261105-lavender1">
+  <link rel="stylesheet" href="/static/css/theme-palette.css?v=20261119-unified3">
+  <script src="/static/js/theme.js?v=20261123-account1"></script>
+  <script defer src="/static/js/launcher.js?v=20261123-startup1"></script>
+  <script defer src="/static/js/launcher-register.js"></script>
+<script defer src="/static/js/accounts.js?v=20261123-mobilelogin1"></script></head>
+<body data-app-name="Q tmux" data-ui-app="tmux">
+  <main id="app-launcher" class="connection-only">
+    <img class="app-mark" src="/static/assets/icon.svg?v=blue-q1" alt="Q">
+    <h1>Tmux mobile</h1>
+    <p id="launch-status" role="status" lang="en" data-user-content translate="no">Loading…</p>
+    <button data-install>앱 설치</button> <button id="launch-open">웹에서 열기</button>
+  </main>
+
+</body>
+</html>

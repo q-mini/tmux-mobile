@@ -1,0 +1,146 @@
+{
+  "source": "Real GUI screencast excerpts; fictional data only.",
+  "overview": "all-features.gif",
+  "tour": "tour.gif",
+  "scenes": [
+    "01-login.png",
+    "02-empty.png",
+    "41-phone-empty.png",
+    "03-settings.png",
+    "49-trash-path.png",
+    "04-account.png",
+    "05-new-session.png",
+    "30-original-terminal.png",
+    "06-reader.png",
+    "07-composer.png",
+    "08-keyboard.png",
+    "09-skills.png",
+    "10-model.png",
+    "11-file-tree.png",
+    "12-file-preview.png",
+    "32-file-editor.png",
+    "13-file-split.png",
+    "14-file-upload-menu.png",
+    "15-file-drop.png",
+    "16-trash.png",
+    "31-image-preview.png",
+    "46-slide-preview.png",
+    "47-hwp-preview.png",
+    "17-chat-attachment.png",
+    "34-image-viewer.png",
+    "43-image-actual-size.png",
+    "18-session-folders.png",
+    "19-claude-commands.png",
+    "20-split-menu.png",
+    "21-split-workspace.png",
+    "48-drag-split.png",
+    "36-vertical-split.png",
+    "37-detached-window.png",
+    "42-returned-workspace.png",
+    "22-light-theme.png",
+    "45-dark-theme.png",
+    "23-notifications.png",
+    "39-light-notifications.png",
+    "40-notification-toast.png",
+    "44-toast-dismissed.png",
+    "24-language.png",
+    "33-devices.png",
+    "25-phone-reader.png",
+    "26-phone-keyboard.png",
+    "35-phone-image-viewer.png",
+    "38-phone-vertical-split.png",
+    "27-phone-files.png",
+    "28-add-server.png",
+    "29-ssh-setup.png"
+  ],
+  "workflows": {
+    "setup.gif": [
+      "01",
+      "02",
+      "41",
+      "05",
+      "30"
+    ],
+    "reader.gif": [
+      "30",
+      "06"
+    ],
+    "composer.gif": [
+      "07",
+      "08",
+      "26"
+    ],
+    "commands.gif": [
+      "09",
+      "19",
+      "10"
+    ],
+    "folders.gif": [
+      "18"
+    ],
+    "workspaces.gif": [
+      "20",
+      "21",
+      "48",
+      "36",
+      "38"
+    ],
+    "detach.gif": [
+      "37",
+      "42"
+    ],
+    "files.gif": [
+      "11",
+      "12",
+      "32",
+      "13",
+      "31"
+    ],
+    "documents.gif": [
+      "46",
+      "47"
+    ],
+    "uploads.gif": [
+      "14",
+      "15",
+      "16",
+      "27"
+    ],
+    "trash.gif": [
+      "49",
+      "16"
+    ],
+    "images.gif": [
+      "17",
+      "34",
+      "43",
+      "35"
+    ],
+    "notifications.gif": [
+      "23",
+      "39",
+      "40",
+      "44"
+    ],
+    "appearance.gif": [
+      "22",
+      "45",
+      "24"
+    ],
+    "settings.gif": [
+      "03",
+      "49",
+      "04",
+      "24",
+      "33"
+    ],
+    "servers.gif": [
+      "28",
+      "29"
+    ]
+  },
+  "size": [
+    1200,
+    820
+  ]
+}

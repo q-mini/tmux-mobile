@@ -1,0 +1,48 @@
+/* Shared interface accents; terminal output keeps its source ANSI colors. */
+:root{--green:#aeb8fe;--ui-accent:#aeb8fe;--ui-accent-ink:#202541;--ui-accent-hover:#c2caff}
+:root[data-theme=light]{--green:#59649c}
+:root .primary,:root .question-navigation .question-confirm{background:var(--ui-accent);color:var(--ui-accent-ink)}
+:root .primary:hover,:root .question-navigation .question-confirm:hover{background:var(--ui-accent-hover);color:var(--ui-accent-ink)}
+:root .brand-mark{background:var(--ui-accent);color:var(--ui-accent-ink)}
+:root .wordmark>span,:root .split-home,:root #app-launcher .app-mark{color:var(--ui-accent)}
+:root input[type=checkbox],:root input[type=radio]{accent-color:var(--ui-accent)}
+:root .status i.connected,:root .live-dot,:root .question-status::before{background:var(--ui-accent)}
+:root .split-sidebar-resize:hover:after,:root .split-sidebar-resize:focus-visible:after,:root .sidebar-resizing .split-sidebar-resize:after,
+:root .composer-resize:hover:after,:root .composer-resize:focus-visible:after,:root .split-divider:hover:after,:root .split-divider:focus-visible:after{background:var(--ui-accent)}
+:root .question-option[aria-current=true] .question-index::after{background:var(--ui-accent)}
+:root .question-option[aria-pressed=true] .question-index{background:var(--ui-accent);border-color:var(--ui-accent)}
+:root .question-option[aria-pressed=true] .question-index::after{background:none;border-color:var(--ui-accent-ink)}
+:root .split-drop-preview{border-color:var(--ui-accent);background:#aeb8fe32}
+:root .split-drop-preview.is-blocked{border-color:#e6977c;background:#d985672c}
+:root .pane-tabs button[aria-pressed=true]{border-color:var(--ui-accent)}
+:root .meta-mode,:root .compose-actions>span{color:var(--green)}
+:root #pending-delivery>button{background:var(--ui-accent);border-color:var(--ui-accent);color:var(--ui-accent-ink)}
+:root[data-theme=dark] .new-output{background:#2d3047;border-color:var(--ui-accent);color:#e5e8ff}
+:root[data-theme=light] .new-output{background:#d7dcf7;border-color:#7883c5;color:#303653}
+:root[data-theme=dark]{background:#121212;--line:#343434}
+:root[data-theme=dark] body,
+:root[data-theme=dark] #split-workspace,
+:root[data-theme=dark] .app-header,
+:root[data-theme=dark] .split-sidebar,
+:root[data-theme=dark] #reader-session-sidebar,
+:root[data-theme=dark] #terminal-session-sidebar,
+:root[data-theme=dark] .split-panel-heading,
+:root[data-theme=dark] .split-panel.is-active .split-panel-heading,
+:root[data-theme=dark] #task-view .reader-heading,
+:root[data-theme=dark] .terminal-heading,
+:root[data-theme=dark] .terminal-fit-info,
+:root[data-theme=dark] .composer-toggle{background:#121212;border-color:#343434}
+:root[data-theme=dark] .split-panel.is-active{outline-color:#757eae}
+:root[data-theme=dark] .split-sidebar .split-session[aria-current=true],
+:root[data-theme=dark] #reader-sessions button[aria-current=true],
+:root[data-theme=dark] #terminal-sessions button[aria-current=true]{background:#292c40;color:#dce0ff;border-color:#6973aa}
+:root[data-theme=dark] .split-sidebar .split-session:hover{background:#242424}
+:root[data-theme=dark] .question-option:hover,:root[data-theme=dark] .question-option[aria-current=true]{background:#272938}
+:root[data-theme=dark] .question-option[aria-pressed=true]{background:#2d3047;color:#e5e8ff}
+:root[data-theme=dark] .question-navigation .question-description-toggle[aria-expanded=true],
+:root[data-theme=dark] .view-zoom[open]>summary,
+:root[data-theme=dark] .view-zoom-row button[data-zoom-step="0"],
+:root[data-theme=dark] .notification-agent[data-agent=Codex]{color:var(--ui-accent)}
+:root[data-theme=light] .question-option[aria-pressed=true]{background:#e1e3f4;color:#303653}
+:root[data-theme=light] .question-option[aria-pressed=true][aria-current=true]{background:#d7dcf7;color:#303653}
+:root[data-theme=light] .question-option[aria-pressed=true] small{color:#525a7d}

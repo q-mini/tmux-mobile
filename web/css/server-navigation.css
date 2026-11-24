@@ -1,0 +1,26 @@
+.server-session-group{--server-color:#8fb9df;margin:4px 0 9px;min-width:0}
+.server-group-heading{display:flex;align-items:center;gap:1px;border-top:1px solid var(--border,#293746);padding-top:5px}
+.server-group-heading .server-group-toggle{display:flex!important;align-items:center;gap:5px;flex:1;min-width:0;width:auto!important;border:0!important;background:transparent!important;color:var(--server-color)!important;padding:7px 3px!important;font-size:calc(11px * var(--sidebar-zoom,1))!important;text-align:left}
+.server-group-toggle strong{overflow:hidden;text-overflow:ellipsis;font-weight:650}
+.server-chevron{flex:none;font-size:13px;width:10px;text-align:center}
+.server-group-items[hidden]{display:none!important}
+.navigation-session{display:flex;align-items:center;min-width:0;gap:0}
+.navigation-session>button:first-child{flex:1;min-width:0;width:auto!important}
+.navigation-session>.navigation-more,.server-group-heading>.navigation-more{flex:none!important;width:23px!important;min-height:30px;padding:3px!important;border:0!important;background:transparent!important;color:#92a1b3!important;font-size:17px!important;text-align:center!important}
+.navigation-more:hover{color:var(--server-color,#c9d8e9)!important;background:var(--surface,#1c2b3d)!important}
+.server-session-group button[aria-current=true]{border-left:2px solid var(--server-color)!important;color:var(--server-color)!important;background:color-mix(in srgb,var(--server-color) 12%,transparent)!important}
+.server-connect,.server-add{display:block;width:100%;border:0;background:transparent;text-align:left;font-size:10px;padding:7px 4px;color:#bcab91;overflow-wrap:anywhere}
+.server-add{color:#a9b8ca;margin-top:8px}
+.server-connect:hover,.server-add:hover{background:#1c2b3d}
+#server-edit-dialog{width:420px;max-width:calc(100vw - 24px)}
+#server-edit-form label{display:block;font-size:12px;margin-top:12px;color:#a8b6c8}
+#server-edit-form input,#server-edit-form select{width:100%;margin-top:5px;font-size:16px}
+.server-fields-pair{display:grid;grid-template-columns:1fr 100px;gap:12px}
+.server-dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+#server-platform-help,#server-edit-status{font-size:12px;line-height:1.7;overflow-wrap:anywhere}
+#host-key-info{white-space:pre-wrap;overflow-wrap:anywhere;font-size:10px;line-height:1.6;color:#adc1d8}
+#host-trust-label{display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.7}
+#session-manage-dialog{width:370px;max-width:calc(100vw - 24px)}
+#session-manage-dialog input{width:100%;font-size:16px;margin:10px 0}
+#session-manage-dialog .danger{color:#deb1b8}
+@media(max-width:600px){.navigation-session>.navigation-more,.server-group-heading>.navigation-more{width:18px!important}.server-group-toggle{gap:2px!important}.server-chevron{width:7px}}

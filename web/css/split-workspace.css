@@ -1,0 +1,100 @@
+:root{--app-safe-top:env(safe-area-inset-top,0px);--app-safe-bottom:env(safe-area-inset-bottom,0px)}
+#split-workspace{position:fixed;inset:0;z-index:25;display:flex;background:#080d15;color:#d6e1f0;overflow:hidden;padding:0 env(safe-area-inset-right) var(--app-safe-bottom) env(safe-area-inset-left)}
+#split-workspace[hidden],.split-panel[hidden],.split-drop-layer[hidden],.split-menu[hidden]{display:none!important}
+html.split-workspace-open,html.split-workspace-open body{overflow:hidden;overscroll-behavior:none}
+html.split-workspace-open .app-header{position:fixed;top:0;left:0;right:0;z-index:26;height:calc(44px + var(--app-safe-top));padding:var(--app-safe-top) max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left));margin:0;background:#101a28;gap:8px}
+html.split-workspace-open .app-header [data-install],html.split-workspace-open .app-header #question-alerts{display:none}
+html.split-workspace-open .app-header .wordmark{font-size:15px}
+html.split-workspace-open .app-header .status{font-size:10px}
+.split-sidebar{position:relative;width:var(--split-sidebar-width,calc(140px * var(--sidebar-zoom,1)));flex:none;display:flex;flex-direction:column;border-right:1px solid #263448;background:#0e1623;min-height:0;padding:8px 6px;gap:6px}
+.split-sidebar-resize{position:absolute;top:0;bottom:0;right:-6px;width:12px;z-index:5;cursor:col-resize;touch-action:none;user-select:none;-webkit-user-select:none;outline:none}
+.split-sidebar-resize:after{content:'';position:absolute;left:5px;top:calc(50% - 18px);width:3px;height:36px;border-radius:3px;background:#536a80}
+.split-sidebar-resize:hover:after,.split-sidebar-resize:focus-visible:after,.sidebar-resizing .split-sidebar-resize:after{background:#80e5bb}
+.sidebar-resizing,.sidebar-resizing *{cursor:col-resize!important;user-select:none!important;-webkit-user-select:none!important}
+.sidebar-collapsed .split-sidebar-resize{display:none}
+.split-home{display:flex;align-items:center;gap:10px;font-size:22px;color:#80e5bb;background:none;border:0;padding:5px 8px;text-align:left;font-weight:750}
+.split-home span{font-size:12px;color:#cad5e4;font-weight:500}
+.split-help{font-size:10px;line-height:1.4;margin:0 5px 4px;color:#96a6bd}
+.split-sidebar-toggle{background:transparent;border:0;border-radius:4px;color:#a9bfd4;font-size:10px;padding:5px;text-align:left;min-height:28px}
+#split-workspace.sidebar-collapsed .split-sidebar{width:40px;padding:6px 3px}
+.sidebar-collapsed .split-sidebar .split-home{padding:5px;justify-content:center;font-size:20px}
+.sidebar-collapsed .split-sidebar .split-home span,.sidebar-collapsed .split-help,.sidebar-collapsed .split-sidebar nav,.sidebar-collapsed .split-add{display:none}
+.sidebar-collapsed .split-sidebar-toggle{text-align:center;font-size:22px}
+.split-sidebar nav{overflow-y:auto;min-height:0;flex:1;overscroll-behavior:contain;scrollbar-width:thin;touch-action:pan-y}
+.split-sidebar .session-host{display:block;width:100%;text-align:left;background:none;border:0;color:#9eafc7;font-size:10px;padding:14px 7px 4px}
+.split-sidebar .session-host.host-unavailable{color:#d9a780}
+.split-sidebar .split-session{width:100%;text-align:left;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin:3px 0;padding:9px 7px;min-height:35px;border:1px solid transparent;border-radius:5px;background:transparent;color:#c1cee0;font-size:calc(11px * var(--sidebar-zoom,1));touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:grab}
+.split-sidebar .split-session[aria-current=true]{background:#203347;color:#b1efd9;border-color:#456b78}
+.split-sidebar .split-session:hover{background:#1b293d}
+.split-add{font-size:11px;padding:10px 5px;border:1px solid #34465d;border-radius:5px;background:#162235;color:#d6e1f0}
+.split-panel-detach{flex:none;border:0;background:transparent;color:inherit;font-size:10px;padding:4px;white-space:nowrap;min-height:24px}
+.split-panel-detach:hover{background:#ffffff18;border-radius:3px}
+.split-panel-title{cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.is-auxiliary .split-panel-title{cursor:default}
+.split-sidebar .split-detached-list{flex:none;max-height:25%;border-bottom:1px solid #343434;padding-bottom:6px}
+.split-detached-list:before{content:'분리된 창';display:block;font-size:9px;color:#96a6bd;margin:4px 5px}
+.split-detached-list>div{display:flex;gap:2px}
+.split-detached-list button{background:transparent;border:0;color:inherit;min-height:30px;padding:4px;font-size:10px}
+.split-detached-list button:first-child{flex:1;min-width:0;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.split-detached-list button:last-child{flex:none;color:var(--green,#aeb8fe)}
+.split-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;color:#96a6bd;font-size:13px;text-align:center}
+.split-empty button{background:transparent;border:1px solid #59647e;border-radius:4px;padding:9px 14px;color:inherit}
+.split-empty[hidden],.split-detached-list[hidden],.is-auxiliary .split-add{display:none!important}
+.split-stage{position:relative;min-width:0;min-height:0;flex:1;overflow:hidden}
+.split-canvas{position:absolute;inset:0;isolation:isolate}
+.split-panel{position:absolute;display:flex;flex-direction:column;min-width:0;min-height:0;outline:1px solid #263448;overflow:hidden}
+.split-panel.is-active{outline:1px solid #628b9c;outline-offset:-1px}
+.split-panel-heading{height:29px;flex:none;display:flex;align-items:center;background:#111c2b;border-bottom:1px solid #25384f;padding:0 4px 0 8px;gap:6px}
+.split-panel.is-active .split-panel-heading{background:#203347}
+.split-panel-title{padding:0;border:0;background:none;font-size:11px;color:#adbed4;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0;height:100%}
+.split-panel.is-active .split-panel-title{color:#d3e9ef}
+.split-panel-close{background:transparent;color:#a6b7cd;border:0;padding:0 5px;font-size:18px;line-height:24px}
+.split-panel-view{flex:none;width:65px;height:24px;border:0;background:transparent;color:#c4e2e3;font-size:10px;padding:2px 4px;white-space:nowrap}
+.split-panel-zoom{display:flex;align-items:center;gap:2px;flex:none}
+.split-panel-zoom-step,.split-panel-zoom .view-zoom>summary{min-width:25px;height:24px;min-height:0;padding:2px 5px;border:0;border-radius:4px;background:transparent;color:#c9daed;font-size:12px;line-height:20px}
+.split-panel-zoom-step:hover,.split-panel-zoom .view-zoom>summary:hover{background:#344c65;color:#fff}
+.split-panel-zoom .view-zoom>summary{font-size:10px}
+.split-panel-zoom .view-zoom[open]>summary{background:#344c65;color:#c6f0df}
+.split-frame{border:0;width:100%;flex:1;min-height:0;display:block;background:#080d15}
+.split-divider{position:absolute;z-index:2;background:#0b1320;touch-action:none}
+.split-divider:after{content:'';position:absolute;inset:1px;background:#304258;border-radius:3px}
+.split-divider:hover:after,.split-divider:focus-visible:after{background:#80b7bd}
+.split-divider-x{cursor:col-resize}.split-divider-y{cursor:row-resize}
+.split-drop-layer{position:fixed;inset:0;z-index:40;cursor:copy;touch-action:none;background:#080d1512}
+.split-drop-preview{position:fixed;pointer-events:none;border:2px solid #94dfd3;background:#68c4af32;box-sizing:border-box;border-radius:5px}
+.split-drop-preview.is-blocked{border-color:#e6977c;background:#d985672c}
+.split-drop-label{position:absolute;top:12px;left:50%;transform:translateX(-50%);max-width:85vw;padding:9px 14px;background:#23364a;border:1px solid #63858e;border-radius:6px;color:#e6f4f2;pointer-events:none;font-size:12px;white-space:normal;text-align:center}
+.split-drop-layer.is-resizing{cursor:grabbing;background:transparent}
+.split-drop-layer.is-resizing .split-drop-label{display:none}
+.split-menu{position:absolute;z-index:35;left:calc(var(--split-sidebar-width,140px) + 8px);bottom:14px;padding:14px;width:min(330px,calc(100% - var(--split-sidebar-width,140px) - 20px));box-sizing:border-box;border:1px solid #4f647e;background:#142133;border-radius:8px;box-shadow:0 10px 40px #0007}
+.split-menu label{font-size:12px;color:#cad8e9;display:block}
+.split-menu select{width:100%;margin:8px 0 12px;padding:8px;font-size:12px;background:#0b1522;color:#d6e1f0;border:1px solid #415574;border-radius:4px}
+.split-menu>div{display:flex;gap:5px}.split-menu button{flex:1;padding:9px 2px;font-size:12px;background:#273c53;border:1px solid #59728a;border-radius:4px;color:#e2edf6}
+.split-menu button:disabled{opacity:.35}.split-menu p{font-size:11px;color:#9cafc6;margin:12px 0 0}
+.split-menu .split-menu-detach{display:block;width:100%;margin-top:8px;background:var(--ui-accent,#aeb8fe);color:var(--ui-accent-ink,#202541);border-color:transparent}
+.split-compact .split-add:after{content:' · 1창 표시';font-size:9px;color:#a6bacf}
+/* Panel mode has a single, full-height view. Sidebar and notifications belong
+   to the outer workspace; the input and pane selector stay inside each panel. */
+html.tmux-panel,html.tmux-panel body{height:100%;overflow:hidden;background:#080d15;padding:0;margin:0}
+html.tmux-panel #workspace,html.tmux-panel #task-view,html.tmux-panel #task-main{height:100%;width:100%;padding:0;margin:0;max-width:none}
+html.tmux-panel .app-header,html.tmux-panel #host-status,html.tmux-panel #sessions-view,html.tmux-panel .task-navigation,html.tmux-panel .task-title,html.tmux-panel .view-toolbar,html.tmux-panel .task-note,html.tmux-panel .special-keys,html.tmux-panel #pane-tabs,html.tmux-panel #reader-session-sidebar,html.tmux-panel #terminal-session-sidebar,html.tmux-panel #reader-sidebar-slot,html.tmux-panel #reader-fullscreen,html.tmux-panel #terminal-fullscreen{display:none!important}
+html.tmux-panel #task-view .reader-card.is-fullscreen,html.tmux-panel #task-view .terminal-card.is-fullscreen{position:absolute;inset:0;border:0;border-radius:0;padding:0;width:100%;height:100%;max-height:100%}
+html.tmux-panel .reader-workspace,html.tmux-panel .terminal-workspace{width:100%;min-width:0}
+html.tmux-panel .reader-heading,html.tmux-panel .terminal-heading{flex-wrap:wrap;gap:5px;padding:6px 8px;min-height:34px}
+html.tmux-panel .reader-heading>div:first-child{flex:1;min-width:0;overflow:hidden}
+html.tmux-panel #reader-name{font-size:10px;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}
+.panel-pane-select{font:inherit;font-size:10px!important;min-width:45px;max-width:120px;padding:3px!important;height:25px;color:#cbd9e9;background:#122033;border:1px solid #344a64;border-radius:4px}
+html.tmux-panel #terminal-name{min-width:0;max-width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+html.tmux-panel .reader-view-controls,html.tmux-panel .terminal-heading{font-size:10px}
+html.tmux-panel .reader-view-controls button,html.tmux-panel .terminal-heading button{font-size:10px;padding:4px 5px;min-height:25px}
+html.tmux-panel #terminal-zoom-out,html.tmux-panel #terminal-zoom-in{display:none}
+html.tmux-panel #reader-terminal,html.tmux-panel #terminal-reader{display:none}
+html.tmux-panel .reader-footer{font-size:10px;padding:4px 8px}
+html.tmux-panel #compose-form{margin:0!important;border-radius:0!important;flex:none}
+html.tmux-panel #compose-form[hidden]{display:none!important}
+.composer-toggle{flex:none;width:100%;display:block;text-align:right;border:0;border-top:1px solid #3b403a;border-radius:0;background:#252723;color:#a9b8a8;font-size:10px;padding:4px 10px;min-height:25px;line-height:16px}
+.composer-toggle:hover{background:#30362e;color:#d1e8ca}
+html.tmux-panel #reader-interaction{max-height:none;overflow:visible}
+html.tmux-panel #notice{position:fixed;bottom:5px;left:5px;right:5px;z-index:50}
+@media(max-width:600px){.split-sidebar{width:var(--split-sidebar-width,calc(78px * var(--sidebar-zoom,1)));padding:6px 3px}.split-home{padding:6px;font-size:21px;gap:5px}.split-home span{font-size:9px}.split-help{font-size:9px;margin:0 3px}.split-sidebar .split-session{font-size:calc(10px * var(--sidebar-zoom,1));padding:9px 4px}.split-sidebar .session-host{padding-left:5px}.split-add{font-size:10px}}
+@media(max-width:400px){html.tmux-panel #copy-output{display:none}html.tmux-panel .reader-heading{padding:4px 6px;gap:3px}html.tmux-panel .reader-heading>div:first-child{flex-basis:100%}.panel-pane-select{max-width:95px}html.tmux-panel .reader-view-controls{width:100%;justify-content:flex-end}}

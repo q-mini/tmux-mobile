@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080808">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="tmux mobile">
+  <title>tmux mobile</title>
+  <link rel="manifest" href="/static/manifest.webmanifest">
+  <link rel="icon" href="/static/assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/assets/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/static/vendor/xterm.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/install.css">
+  <script defer src="/static/vendor/xterm.js"></script>
+  <script defer src="/static/js/app.js?v=20261123-header1"></script>
+  <script defer src="/static/js/device_sessions.js?v=20261119-remember1"></script>
+  <link rel="stylesheet" href="/static/css/theme-palette.css?v=20261119-unified3">
+  <script src="/static/js/theme.js?v=20261119-unified3"></script>
+</head>
+<body>
+  <main id="login-view" class="login-view">
+    <form id="login-form" class="login-card">
+      <div class="brand-mark">&gt;_</div>
+      <p class="eyebrow">YOUR SERVER, IN YOUR POCKET</p>
+      <h1>tmux mobile<span class="dot">.</span></h1>
+      <p class="muted">서버에서 하던 작업을 그대로 이어가세요.</p>
+      <label for="access-key">접속 키</label>
+      <input id="access-key" type="password" autocomplete="current-password" placeholder="서버에서 발급한 키를 입력하세요" required>
+      <button type="submit" class="primary">서버 연결 <span>↗</span></button>
+      <p id="login-error" role="alert"></p>
+      <p class="footnote">접속 키는 이 기기의 브라우저에 저장하지 않아요.</p>
+      <button type="button" class="install-link quiet" data-install>iPhone 홈 화면에 추가</button>
+    </form>
+  </main>
+  <main id="workspace" hidden>
+    <header>
+      <div class="wordmark">&gt;_ <strong>tmux</strong><span>mobile</span></div>
+      <div class="status"><span id="status-light"></span><span id="status-text">연결 대기</span></div>
+      <button class="quiet" data-install>앱 추가</button>
+    </header>
+    <section class="session-bar" aria-label="세션 선택">
+      <label for="sessions">SESSION</label>
+      <select id="sessions"><option value="">세션을 선택하세요</option></select>
+      <button id="refresh" title="세션 새로고침" aria-label="세션 새로고침">↻</button>
+    </section>
+    <section class="terminal-card">
+      <div class="terminal-heading"><span id="terminal-name">작업할 세션을 선택하세요</span><div><button id="reconnect" class="quiet">다시 연결</button><select id="width" aria-label="터미널 너비"><option value="100">100열</option><option value="160">160열</option><option value="220">220열</option><option value="fit">화면 맞춤</option></select></div></div>
+      <div id="terminal-scroll"><div id="terminal"></div></div>
+      <div id="empty-state"><span>⌘</span><p>PC에서 열어둔 tmux 세션을 선택하면<br>같은 화면에서 함께 작업할 수 있어요.</p></div>
+    </section>
+    <nav class="keys" aria-label="터미널 단축키">
+      <button data-key="escape">Esc</button><button data-key="tab">Tab</button><button id="ctrl-toggle" aria-pressed="false">Ctrl</button><button data-key="up">↑</button><button data-key="down">↓</button><button data-key="left">←</button><button data-key="right">→</button><button data-key="enter">Enter</button><button data-key="interrupt" class="danger">Ctrl C</button>
+    </nav>
+    <form id="compose-form" class="composer">
+      <textarea id="message" rows="2" placeholder="Codex에 보낼 내용을 입력하세요…" aria-label="보낼 내용"></textarea>
+      <div class="compose-actions"><span id="input-note">전송은 한 번만 실행돼요.</span><button type="submit" class="primary">보내기 ↑</button></div>
+    </form>
+    <footer><span>PC와 같은 세션 · 화면은 좌우로 스크롤</span><span id="connection-note">탭을 닫아도 서버 작업은 계속돼요.</span></footer>
+    <p id="notice" role="status" hidden></p>
+  </main>
+  <dialog id="install-dialog" aria-labelledby="install-title">
+    <form method="dialog"><button class="quiet dialog-close" aria-label="닫기">✕</button></form>
+    <div class="brand-mark">&gt;_</div>
+    <h2 id="install-title">홈 화면에서 바로 열기</h2>
+    <p>Safari에서 이 주소를 연 뒤 아래 순서대로 추가하세요.</p>
+    <ol><li>Safari 메뉴에서 <strong>공유</strong> 선택</li><li><strong>홈 화면에 추가</strong> 선택</li><li>표시된다면 <strong>웹 앱으로 열기</strong>를 켜고 추가</li></ol>
+    <p class="footnote">설치 후 tmux 아이콘으로 접속할 수 있어요.<br>로그인이 다시 필요하면 같은 접속 키를 입력하세요.</p>
+    <form method="dialog"><button class="primary">확인</button></form>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,20 @@
+.code-keyword,.code-command{color:#c6a0f6}.code-string{color:#a6da95}.code-number{color:#f5a97f}.code-function{color:#8aadf4}.code-math{color:#8bd5ca}.code-comment{color:#9299ac}
+.code-add{background:#213a2b;color:#c8e8c9;box-decoration-break:clone;-webkit-box-decoration-break:clone}.code-delete{background:#492c30;color:#edb8bd;box-decoration-break:clone;-webkit-box-decoration-break:clone}.code-hunk{color:#91b7d3}
+:root[data-theme=light] .code-keyword,:root[data-theme=light] .code-command{color:#713aa2}:root[data-theme=light] .code-string{color:#3a662d}:root[data-theme=light] .code-number{color:#9b4a20}:root[data-theme=light] .code-function{color:#275e99}:root[data-theme=light] .code-math{color:#21685f}:root[data-theme=light] .code-comment{color:#6d6d62}
+:root[data-theme=light] .code-add{background:#d4e6ce;color:#304a2f}:root[data-theme=light] .code-delete{background:#f0d3cf;color:#773936}:root[data-theme=light] .code-hunk{color:#336681}
+/* Code keeps its original rows. Horizontal scrolling never splits identifiers. */
+#reader-content .output-block.console{white-space:pre;overflow-wrap:normal;word-break:normal;overflow-x:auto;overscroll-behavior-x:contain;tab-size:4}
+#reader-content .output-block.console>code{white-space:pre;overflow-wrap:normal;word-break:normal;font:inherit}
+#reader-content .code-line{white-space:pre;overflow-wrap:normal;word-break:normal}
+.direct-toggle{margin:0 0 4px;font-size:12px;color:var(--green)}
+.direct-keyboard p{font-size:11px;line-height:1.5;margin:4px 0;color:var(--subtle)}
+.direct-keyboard nav{display:flex;gap:4px;overflow-x:auto;padding:5px 0;max-width:100%}
+.direct-keyboard button{flex:none;font:12px var(--font-code);min-width:36px;padding:8px}
+.direct-keyboard button[aria-pressed=true]{color:var(--green);border-color:var(--green);background:#203a3e}
+.direct-keyboard textarea{font-size:16px!important;min-height:44px!important;height:44px;resize:none}
+.direct-hidden{display:none!important}
+#new-session-dialog{width:380px}
+#new-session-form>label{display:block;margin:12px 0 5px;font-size:12px}
+#new-session-form>input,#new-session-form>select{width:100%;font-size:16px}
+#new-session-status{min-height:1.6em}
+.split-new-session{font-size:11px;margin:4px 6px;padding:8px 4px}

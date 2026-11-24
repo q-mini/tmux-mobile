@@ -1,0 +1,61 @@
+/* Compact controls with readable type; terminal cells retain their own sizing. */
+body{padding-inline:max(8px,env(safe-area-inset-left)) max(8px,env(safe-area-inset-right))}
+button{padding:6px 9px;border-radius:6px}input,select,textarea{padding:8px}
+.quiet{padding:5px 7px}.app-header{height:48px;gap:7px}
+.sessions-view{margin:16px auto}.section-heading h1{font-size:25px}.section-intro{margin:6px 0 12px}
+.search-box{margin-bottom:12px;border-radius:7px}.search-box input{padding:9px 7px}
+.session-grid{gap:8px}.session-card{border-radius:8px}.session-open{min-height:120px;padding:12px 36px 12px 12px}
+.card-name{font-size:18px;margin:7px 0 4px}.card-meta{margin-top:6px}.manager-note{margin-top:12px}
+#task-view{margin:8px auto}.task-title{margin-top:10px}.task-title p{margin-top:3px}
+.pane-tabs{padding:8px 0 6px;gap:4px}.pane-tabs button{padding:5px 8px}.pane-tabs small{margin-top:2px}
+.view-toolbar{margin:3px 0 6px}.view-tabs button{padding:5px 9px}
+#reader-scroll{padding:10px 12px}#reader-content{line-height:1.7}
+.chat-message{margin-bottom:16px}.chat-message.user{padding:8px 11px;border-radius:10px}
+.chat-message.assistant>.output-block{margin-bottom:10px}.chat-message .output-block.console{padding:8px}
+.chat-message.assistant[data-speaker]{padding:10px 12px;border-radius:8px}.chat-speaker{margin-bottom:7px}
+.reader-heading,.terminal-heading{padding:4px 7px;min-height:34px}
+html.tmux-panel .reader-heading,html.tmux-panel .terminal-heading{padding:3px 6px;min-height:30px}
+#compose-form,#task-view #compose-form{padding:calc(5px * var(--composer-zoom,1)) calc(7px * var(--composer-zoom,1))}
+#compose-form>label{margin:0 2px 2px}#compose-form textarea{padding:3px;min-height:calc(34px * var(--composer-zoom,1))}
+#compose-form .compose-actions{margin-top:3px;gap:4px}#compose-form .compose-actions button{padding:4px 7px}
+.composer-toggle{min-height:23px;padding:2px 8px}.special-keys{margin:4px 0}.special-keys summary{padding:4px 2px}
+.split-sidebar{padding:4px;gap:3px}.split-home{padding:3px 5px;gap:7px}.split-home span{font-size:13px}
+.split-help{font-size:10px;margin:0 3px 3px}.split-sidebar-toggle{font-size:12px;min-height:25px;padding:3px 5px}
+.split-sidebar .split-session{font-size:calc(13px * var(--sidebar-zoom,1));line-height:1.4;min-height:29px;padding:4px 5px;margin:1px 0}
+.split-add,.split-new-session{font-size:12px;padding:5px;margin:1px 0;min-height:28px}
+.split-panel-heading{height:27px;padding-left:6px;gap:3px}.split-panel-title{font-size:12px}
+.server-session-group{margin:2px 0 4px;--server-ink:var(--server-color)}
+.server-group-heading{padding-top:2px}.server-group-heading .server-group-toggle{padding:4px 2px!important;font-size:calc(12px * var(--sidebar-zoom,1))!important;gap:3px!important;color:var(--server-ink)!important}
+.server-chevron{font-size:17px;width:12px}.server-group-toggle strong{font-size:inherit}
+.navigation-session>.navigation-more,.server-group-heading>.navigation-more{width:21px!important;min-height:28px;padding:1px!important;color:var(--subtle)!important}
+.server-session-group button[aria-current=true]{color:var(--server-ink)!important}
+.server-connect,.server-add{font-size:11px;padding:4px}.server-add{margin-top:4px}
+#terminal-sessions,#reader-sessions{gap:1px;padding:3px}
+#terminal-sessions button,#reader-sessions button{font-size:calc(13px * var(--sidebar-zoom,1));padding:4px 5px;line-height:1.4}
+#reader-session-sidebar .terminal-sidebar-heading,#terminal-session-sidebar .terminal-sidebar-heading{padding:6px;font-size:12px}
+:root[data-theme=light]{--subtle:#4f4b42;--reader-foreground:#25251f;--reader-background:#f0ebd8;--ui-accent:#59649c;--ui-accent-ink:#fff;--ui-accent-hover:#46528b;color:#25251f}
+:root[data-theme=light] .server-session-group{--server-ink:color-mix(in srgb,var(--server-color) 36%,#172433)}
+:root[data-theme=light] .split-home span,:root[data-theme=light] .split-sidebar .split-session,:root[data-theme=light] #reader-sessions button,:root[data-theme=light] #terminal-sessions button{color:#373b42}
+:root[data-theme=light] .split-help,:root[data-theme=light] .split-sidebar-toggle,:root[data-theme=light] .server-add,:root[data-theme=light] .server-connect,:root[data-theme=light] .status,:root[data-theme=light] .terminal-sidebar-heading{color:#53524c}
+:root[data-theme=light] #reader-content{--reader-foreground:#25251f;--reader-background:#f0ebd8;color:#25251f}
+:root[data-theme=light] .quiet,:root[data-theme=light] .split-panel-title,:root[data-theme=light] .split-panel.is-active .split-panel-title,:root[data-theme=light] .split-panel-view,:root[data-theme=light] .split-panel-close,:root[data-theme=light] .split-panel-detach{color:#3b4148}
+:root[data-theme=light] .muted,:root[data-theme=light] .section-intro,:root[data-theme=light] .card-path,:root[data-theme=light] .card-original,:root[data-theme=light] .card-meta,:root[data-theme=light] .task-title p,:root[data-theme=light] .manager-note,:root[data-theme=light] .task-note{color:#53524c}
+:root[data-theme=light] .output-block.meta,:root[data-theme=light] .chat-message .output-block.meta,:root[data-theme=light] .reader-activity,:root[data-theme=light] .reader-tool-title,:root[data-theme=light] .activity-body .output-block,:root[data-theme=light] .meta-hint{color:#53524c}
+:root[data-theme=light] .reader-heading,:root[data-theme=light] #task-view .reader-heading,:root[data-theme=light] .reader-footer,:root[data-theme=light] .terminal-fit-info,:root[data-theme=light] .terminal-heading{color:#4f4b42}
+:root[data-theme=light] .server-group-heading{border-color:#bfb69d}
+:root[data-theme=light] .server-connect:hover,:root[data-theme=light] .server-add:hover,:root[data-theme=light] .navigation-more:hover{background:#dcd8c9!important;color:#25251f!important}
+:root[data-theme=light] #server-edit-form label,:root[data-theme=light] #host-key-info,:root[data-theme=light] #host-trust-label,:root[data-theme=light] #server-platform-help{color:#414b56}
+:root[data-theme=light] .direct-keyboard button[aria-pressed=true]{background:#dce0ee;color:#343d68}
+@media(max-width:600px){
+ .app-header{height:44px;gap:4px}.app-header .quiet{padding:4px;font-size:11px}.wordmark small{display:none}
+ .split-sidebar{padding:3px;gap:2px}.split-home{padding:3px;font-size:20px}.split-home span{font-size:12px}
+ .split-help{font-size:9px;margin-bottom:2px}.split-sidebar .split-session{font-size:calc(12px * var(--sidebar-zoom,1));min-height:32px;padding:5px 3px}
+ .server-group-toggle strong{font-size:12px}.server-chevron{width:11px}.navigation-session>.navigation-more,.server-group-heading>.navigation-more{width:20px!important;min-height:32px}
+ #terminal-sessions button,#reader-sessions button{font-size:calc(12px * var(--sidebar-zoom,1));padding:5px 3px}
+ .session-open{min-height:112px}.section-heading h1{font-size:23px}.section-heading button{padding:6px;font-size:12px}
+ #reader-scroll{padding:8px}.chat-message{margin-bottom:12px}.chat-message.user{padding:7px 9px}
+}
+
+/* Session manager actions stay separate at phone and desktop widths. */
+.sessions-view{margin:10px auto}.section-heading{gap:8px;align-items:center;flex-wrap:wrap}.section-heading>div:first-child{flex:1 1 150px;min-width:0}.section-heading>div:last-child{display:flex;align-items:center;flex-wrap:wrap;gap:6px;max-width:100%;min-width:0}.section-heading h1{font-size:22px;margin:2px 0}.section-heading .eyebrow{margin:0 0 3px}.section-heading button{min-height:29px;padding:4px 8px;font-size:12px;line-height:1.3;white-space:nowrap}.section-heading .icon-button{font-size:18px;padding:4px 7px}.section-intro{margin:5px 0 8px}.search-box{margin-bottom:8px}.search-box input{padding:7px}.sessions-view .empty{padding:18px 10px}.manager-note{margin-top:8px;line-height:1.6}
+@media(max-width:600px){.sessions-view .section-heading>div:first-child{flex-basis:100%}.sessions-view .section-heading>div:last-child{width:100%}.app-header{flex-wrap:wrap;height:auto;min-height:44px;padding-block:4px;row-gap:3px}.section-heading h1{font-size:20px}}

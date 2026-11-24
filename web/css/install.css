@@ -1,0 +1,10 @@
+.install-link{display:block;margin:0 auto;color:#80e5bb;font-size:12px}
+#install-dialog{position:fixed;max-width:min(360px,calc(100vw - 32px));padding:28px;color:#dbe7f3;background:#101924;border:1px solid #34485e;border-radius:18px;box-shadow:0 20px 90px #0009}
+#install-dialog::backdrop{background:#03070dcc;backdrop-filter:blur(4px)}
+#install-dialog h2{font-size:20px;letter-spacing:-.6px;margin:20px 0 14px}
+#install-dialog p{font-size:12px;color:#9aaec4;line-height:1.8}
+#install-dialog ol{padding-left:20px;margin:20px 0;font-size:13px;color:#bacadc;line-height:2.2}
+#install-dialog .brand-mark{width:42px;height:42px;font-size:20px;margin:0}
+#install-dialog .dialog-close{position:absolute;top:12px;right:12px}
+#install-dialog .primary{width:100%;margin-top:12px}
+#install-dialog .footnote{font-size:11px;margin-top:20px}
