@@ -98,7 +98,6 @@ globalThis.QEnglish = {
   "남은 임시 파일은 자동 정리돼요.": "Remaining temporary files will be cleaned up automatically.",
   "전송이 끝난 뒤 첨부해 주세요.": "Wait for sending to finish before attaching files.",
   "먼저 작업 화면을 선택해 주세요.": "Select a pane first.",
-  "한 번에 최대 5개까지 첨부할 수 있어요.": "You can attach up to 5 files at a time.",
   ": 파일당 최대 50 MB까지 첨부할 수 있어요.": ": each file can be up to 50 MB.",
   "화면 {0}": "Pane {0}",
   "연결됨": "Connected",

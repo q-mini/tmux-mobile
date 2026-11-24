@@ -42,7 +42,7 @@ window.TmuxOpenFiles=options=>{const target=options||fileContext();if(window.Tmu
 document.getElementById('open-files').onclick=()=>window.TmuxOpenFiles(fileContext());
 const drafts=new Map();
 const attachmentDrafts=new Map(),sendIntents=new Map();
-const MAX_FILE_SIZE=50*1024*1024,MAX_ATTACHMENTS=5;
+const MAX_FILE_SIZE=50*1024*1024;
 const queuedAttachments=target=>attachmentDrafts.get(target)||[];
 function renderAttachments(){
   const files=queuedAttachments(paneId);$('attachment-list').replaceChildren();$('attachment-list').hidden=!files.length;
@@ -58,7 +58,7 @@ function renderAttachments(){
 function queueFiles(files){
   if(!paneId||pending){notice(pending?qLangWorkspace.t('전송이 끝난 뒤 첨부해 주세요.'):qLangWorkspace.t('먼저 작업 화면을 선택해 주세요.'));return;}
   const queued=[...queuedAttachments(paneId)];
-  for(const file of files){if(queued.length>=MAX_ATTACHMENTS){notice(qLangWorkspace.t('한 번에 최대 5개까지 첨부할 수 있어요.'));break;}if(file.size>MAX_FILE_SIZE){notice(file.name+qLangWorkspace.t(': 파일당 최대 50 MB까지 첨부할 수 있어요.'));continue;}queued.push({file,uploaded:null});}
+  for(const file of files){if(file.size>MAX_FILE_SIZE){notice(file.name+qLangWorkspace.t(': 파일당 최대 50 MB까지 첨부할 수 있어요.'));continue;}queued.push({file,uploaded:null});}
   attachmentDrafts.set(paneId,queued);renderAttachments();
 }
 const keyData={escape:'\x1b',tab:'\t',up:'\x1b[A',down:'\x1b[B',left:'\x1b[D',right:'\x1b[C',enter:'\r',interrupt:'\x03'};

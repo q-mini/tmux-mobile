@@ -191,7 +191,7 @@ To keep Trash somewhere else, for example on a larger disk, open **Settings**, t
 Use **Attach** in the composer, drop files onto the conversation area, or paste an image. Select the intended pane first, write the message, then send. The app stores temporary inputs on that pane’s server and supplies their paths to the CLI. Actual remote delivery requires authenticated SSH.
 
 
-Chat attachments allow up to five files per send, 50 MB each. They are processing inputs, not permanent storage. Explicitly choose a server folder when asking an agent to retain a result.
+Chat attachments have no file-count limit; each file can be up to 50 MB. They are processing inputs, not permanent storage. Explicitly choose a server folder when asking an agent to retain a result.
 
 Click an attached image or an original-image control to open it inside the app. **Actual size** switches from fit-to-screen to original pixels. Compact **Back** and **Close ×** buttons return to the conversation; browser Back also closes the viewer.
 

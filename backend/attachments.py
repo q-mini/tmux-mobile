@@ -13,7 +13,6 @@ from aiohttp import web
 from PIL import Image, ImageOps, UnidentifiedImageError
 
 MAX_FILE_SIZE = 50 * 1024 * 1024
-MAX_ATTACHMENTS = 5
 UNSENT_TTL = 3600
 SENT_TTL = 24 * 3600
 REMOTE_DELETE = r'''
@@ -192,8 +191,8 @@ class Attachments:
 
     def message(self, pid, payload, owner):
         ids = payload.get('attachments', [])
-        if not isinstance(ids, list) or len(ids) > MAX_ATTACHMENTS or len(set(str(item) for item in ids)) != len(ids):
-            raise web.HTTPBadRequest(text='파일은 한 번에 최대 5개까지 보낼 수 있어요.')
+        if not isinstance(ids, list) or len(set(str(item) for item in ids)) != len(ids):
+            raise web.HTTPBadRequest(text='잘못된 첨부 파일이에요.')
         if not ids:
             return payload
         host, _ = self.workspace.resolve(pid, '%')
