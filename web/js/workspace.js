@@ -162,13 +162,21 @@ async function openHostSetup(host){
   setupHost=host.id;$('host-dialog-title').textContent=host.name+qLangWorkspace.t(' 연결');$('host-account').textContent=host.user+' @ '+host.name;
   hostTrustToken='';$('host-trust').checked=false;$('host-key-info').hidden=true;$('host-trust-label').hidden=true;
   $('host-password').value='';$('host-connect-status').textContent='';$('host-dialog').showModal();$('host-password').focus();
-  if(host.verify_key){$('host-connect-status').textContent=qLangWorkspace.t('호스트 키 확인 중…');try{const result=await api('/api/hosts/'+encodeURIComponent(host.id)+'/key');if(setupHost!==host.id||!$('host-dialog').open)return;hostTrustToken=result.token;$('host-key-info').textContent=result.fingerprints.join('\n');$('host-key-info').hidden=false;$('host-trust-label').hidden=false;$('host-connect-status').textContent='';}catch(error){$('host-connect-status').textContent=error.message;}}
+  if(host.verify_key)await probeHostKey(host);
+}
+// A failed probe keeps its error in the status line; connecting again retries the probe instead of hiding that error.
+async function probeHostKey(host){
+  $('host-connect-status').textContent=qLangWorkspace.t('호스트 키 확인 중…');
+  try{const result=await api('/api/hosts/'+encodeURIComponent(host.id)+'/key');if(setupHost!==host.id||!$('host-dialog').open)return;hostTrustToken=result.token;$('host-key-info').textContent=result.fingerprints.join('\n');$('host-key-info').hidden=false;$('host-trust-label').hidden=false;$('host-connect-status').textContent='';}
+  catch(error){if(setupHost===host.id)$('host-connect-status').textContent=error.message;}
 }
 $('host-dialog').addEventListener('close',()=>{$('host-password').value='';});
 $('host-connect-form').addEventListener('submit',async event=>{
   event.preventDefault();if(setupPending)return;
   const target=setupHost,password=$('host-password').value;if(!password)return;
-  if(hosts.find(h=>h.id===target)?.verify_key&&(!hostTrustToken||!$('host-trust').checked)){$('host-connect-status').textContent=qLangWorkspace.t('호스트 키를 확인하고 신뢰 여부를 체크해 주세요.');return;}
+  const host=hosts.find(h=>h.id===target);
+  if(host?.verify_key&&!hostTrustToken){await probeHostKey(host);return;}
+  if(host?.verify_key&&!$('host-trust').checked){$('host-connect-status').textContent=qLangWorkspace.t('호스트 키를 확인하고 신뢰 여부를 체크해 주세요.');return;}
   setupPending=true;$('host-connect-submit').disabled=true;$('host-password').value='';$('host-connect-status').textContent=qLangWorkspace.t('연결 설정 중…');
   try{
     await api('/api/hosts/'+encodeURIComponent(target)+'/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password,trust:hostTrustToken})});
