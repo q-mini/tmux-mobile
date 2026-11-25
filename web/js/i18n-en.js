@@ -273,6 +273,7 @@ globalThis.QEnglish = {
   "연결 설정": "Connection setup",
   " 세션 메뉴": " session menu",
   "＋ 서버": "＋ Server",
+  "서버 ＋": "Server ＋",
   "폴더 변경을 기기에 보관했어요. 연결되면 자동으로 동기화해요.": "Folder changes are saved on this device and will sync when connected.",
   "목록 정리": "Organize sessions",
   "서버 바로 아래": "Server root",

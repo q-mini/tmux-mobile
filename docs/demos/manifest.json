@@ -51,7 +51,8 @@
     "38-phone-vertical-split.png",
     "27-phone-files.png",
     "28-add-server.png",
-    "29-ssh-setup.png"
+    "29-ssh-setup.png",
+    "50-server-rename.png"
   ],
   "workflows": {
     "setup.gif": [
@@ -136,7 +137,8 @@
     ],
     "servers.gif": [
       "28",
-      "29"
+      "29",
+      "50"
     ]
   },
   "size": [

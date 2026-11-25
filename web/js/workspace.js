@@ -67,9 +67,11 @@ function openNewSession(target){
   const requested=typeof target==='string'?hosts.find(host=>host.id===target):null;
   if(requested&&!requested.connected){openHostSetup(requested);return;}
   const select=$('new-session-host');select.replaceChildren();for(const host of hosts){const option=new Option(host.name+(host.connected?'':' · '+qLangWorkspace.t(host.status)),host.id);option.disabled=!host.connected;select.add(option);}
+  select.add(new Option('＋ '+qLangWorkspace.t('서버 추가'),'add-server'));
   const current=requested?.id||selectedSession()?.host;if(current&&hosts.some(host=>host.id===current&&host.connected))select.value=current;
   $('new-session-status').textContent='';$('new-session-dialog').showModal();$('new-session-name').focus();
 }
+$('new-session-host').addEventListener('change',event=>{if(event.target.value!=='add-server')return;$('new-session-dialog').close();openServerEditor();});
 const selectedSession=()=>inventory.find(item=>item.id===sessionId);
 const selectedPane=()=>selectedSession()?.panes.find(item=>item.id===paneId);
 const sessionKey=session=>session.host_local===false?session.host+'~'+session.name:session.name;
@@ -151,7 +153,7 @@ async function changeSession(session,action,name=''){
   await refreshSessions(true);
 }
 async function deleteSession(session){if(!confirm(hostName(session)+' / '+session.name+qLangWorkspace.t('을 삭제할까요? 실행 중인 작업도 모두 종료됩니다.')))return;await changeSession(session,'delete');}
-window.TmuxSessionActions={add:host=>openNewSession(host.id),rename:(session,name)=>changeSession(session,'rename',name),remove:async session=>{try{await deleteSession(session);}catch(error){notice(error.message);}},notice};
+window.TmuxSessionActions={add:host=>openNewSession(host.id),renameHost:async(host,name)=>{await api('/api/hosts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'edit',id:host.id,name})});await refreshSessions();},rename:(session,name)=>changeSession(session,'rename',name),remove:async session=>{try{await deleteSession(session);}catch(error){notice(error.message);}},notice};
 async function manageSessionAction(action){const session=managingSession;if(!session)return;try{if(action==='delete')await deleteSession(session);else await changeSession(session,action,$('session-new-name').value.trim());$('session-manage-dialog').close();}catch(error){$('session-manage-status').textContent=error.message;}}
 $('session-rename-form').addEventListener('submit',event=>{event.preventDefault();manageSessionAction('rename');});$('session-delete').addEventListener('click',()=>manageSessionAction('delete'));
 window.addEventListener('server-navigation-change',()=>{for(const id of ['terminal-sessions','reader-sessions'])$(id).dataset.sessions='';renderTerminalSessions();if(splitWorkspace){splitWorkspace.list.dataset.signature='';splitWorkspace.update();}});

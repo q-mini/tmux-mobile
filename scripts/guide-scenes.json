@@ -44,8 +44,9 @@
   "35-phone-image-viewer": {"title": "Image viewer on a phone", "caption": "Image controls stay compact on a phone."},
   "38-phone-vertical-split": {"title": "Split on a phone", "caption": "An upward swipe dismisses the banner; then two workspaces stack on the phone."},
   "27-phone-files": {"title": "Files on a phone", "caption": "The same folder menu uploads and downloads files from a phone."},
-  "28-add-server": {"title": "Add a server", "caption": "+ Server registers an SSH host. 192.0.2.10 is a reserved documentation address."},
+  "28-add-server": {"title": "Add a server", "caption": "Server + at the bottom of the sidebar registers an SSH host. 192.0.2.10 is a reserved documentation address."},
   "29-ssh-setup": {"title": "SSH setup", "caption": "Setup shows the host key and asks once for the real password to install an app key. Nothing is saved."},
   "48-drag-split": {"title": "Drag to split", "caption": "Drag a session from the sidebar onto the right edge of a workspace. The highlighted half is where it opens."},
+  "50-server-rename": {"title": "Rename a server", "caption": "A server's ⋯ → Rename edits its name in the list. Enter saves and Escape cancels."},
   "49-trash-path": {"title": "Trash folder", "caption": "Type a folder in Settings and press Save. New deletions go there; older ones stay restorable in the old folder."}
 }

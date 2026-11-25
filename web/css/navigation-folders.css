@@ -16,6 +16,7 @@
 .navigation-session>button:first-child[aria-current=true]{box-shadow:none;outline:0}
 .navigation-session-rename{display:block;flex:1;min-width:0;width:0;margin:0;padding:3px 5px!important;height:28px;border:1px solid var(--ui-accent)!important;border-radius:3px!important;background:var(--reader-background,#191919);color:inherit;font:inherit;font-size:calc(13px * var(--sidebar-zoom,1));line-height:20px}
 .navigation-session-rename[aria-invalid=true]{border-color:#d89797!important}
+.server-group-heading.is-renaming .server-group-toggle{display:none!important}
 .navigation-folder-items>.navigation-session:before,.navigation-folder-items>.navigation-folder>.navigation-folder-heading:before{content:'';position:absolute;left:-4px;top:15px;width:7px;border-top:1px solid color-mix(in srgb,var(--server-ink,var(--server-color)) 28%,transparent);pointer-events:none}
 .navigation-folder-menu{position:fixed;z-index:100;padding:4px;min-width:158px;max-width:calc(100vw - 12px);background:#20232b;color:#e3e7ef;border:1px solid #515763;border-radius:7px;box-shadow:0 8px 28px #0005;font:13px/1.4 system-ui}
 .navigation-folder-menu>button{display:block;width:100%;text-align:left;min-height:32px;border:0;background:transparent;color:inherit;padding:6px 9px;border-radius:4px;font:inherit}

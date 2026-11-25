@@ -229,11 +229,12 @@ Account settings support ID/password changes, recovery-code replacement and acco
 
 ## 18. Connect another server
 
-1. Click **＋ Server** or **Add server** in the manager.
+1. Click **Server ＋** at the bottom of the sidebar, **Add server** in the manager, or **＋ Add server** in the New session server list.
 2. Enter a name, SSH address, account, port and platform. Use your own host; `192.0.2.10` below is a reserved documentation address.
 3. Ensure the remote host has SSH, Python 3 and tmux. Windows also needs a default WSL distribution; Mac needs Remote Login enabled.
 4. Review the host key, then enter the actual server password directly in the authenticated form.
 5. The app registers a dedicated SSH key while preserving existing authorized keys, verifies key login, and then loads that server’s sessions.
+6. To rename a server, choose its **⋯ → Rename** and edit the name in the list; Enter saves and Escape cancels. **⋯ → Manage server** still edits the address, account and port.
 
 
 ![Register a server and open its SSH setup](demos/servers.gif)

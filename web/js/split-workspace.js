@@ -34,6 +34,7 @@ class TmuxSplitWorkspace {
     this.sidebarToggle.addEventListener('click',()=>fold(!this.shell.classList.contains('sidebar-collapsed')));fold(folded);
     this.shell.querySelector('.split-home').addEventListener('click',()=>this.manager());
     this.shell.querySelector('.split-add').addEventListener('click',()=>this.showMenu());
+    const addServer=document.createElement('button');addServer.type='button';addServer.className='split-new-session';addServer.textContent=qLangSplitWorkspace.t('서버 ＋');addServer.addEventListener('click',()=>this.addHost());this.shell.querySelector('.split-add').before(addServer);
     document.addEventListener('q-outside-press',event=>{const target=event.detail.target;if(!this.menu.contains(target)&&!this.shell.querySelector('.split-add').contains(target))this.menu.hidden=true;});
     this.layer.addEventListener('dragover',event=>{if(!this.drag)return;event.preventDefault();event.dataTransfer.dropEffect=this.drag.panel?'move':'copy';this.point(event.clientX,event.clientY);});
     this.layer.addEventListener('drop',event=>{if(!this.drag)return;event.preventDefault();this.point(event.clientX,event.clientY);this.finishDrag();});
@@ -198,7 +199,7 @@ class TmuxSplitWorkspace {
           button.addEventListener('touchstart',event=>{if(event.touches.length!==1)return;const t=event.touches[0];this.touch={session:session.id,x:t.clientX,y:t.clientY};clearTimeout(this.holdTimer);this.holdTimer=setTimeout(()=>{if(this.touch)this.beginDrag(session.id,true);},400);},{passive:true});
           button.addEventListener('contextmenu',event=>{event.preventDefault();this.manageSession(session);});group.items.append(ServerNavigation.row(session,button,this.manageSession));
         }
-      }this.list.append(ServerNavigation.add(this.addHost));this.list.dataset.signature=signature;
+      }this.list.dataset.signature=signature;
     }
     for(const button of this.list.querySelectorAll('.split-session'))button.setAttribute('aria-current',String(button.dataset.session===selected));
     for(const panel of this.panels.values()){

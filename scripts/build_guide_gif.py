@@ -27,7 +27,7 @@ GROUPS = {
     'notifications': ['23', '39', '40', '44'],
     'appearance': ['22', '45', '24'],
     'settings': ['03', '49', '04', '24', '33'],
-    'servers': ['28', '29'],
+    'servers': ['28', '29', '50'],
 }
 TOUR = ['02', '05', '30', '06', '07', '09', '18', '20', '21', '48', '11', '46', '47', '17', '22', '25']
 # (frames per second, longest action in seconds before fast-forwarding, final hold in seconds)
