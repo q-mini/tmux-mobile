@@ -50,6 +50,12 @@
     "35-phone-image-viewer.png",
     "38-phone-vertical-split.png",
     "27-phone-files.png",
+    "51-phone-install.png",
+    "52-phone-home-screen.png",
+    "53-phone-app.png",
+    "54-android-install.png",
+    "55-desktop-install.png",
+    "56-desktop-app.png",
     "28-add-server.png",
     "29-ssh-setup.png",
     "50-server-rename.png"
@@ -139,6 +145,14 @@
       "28",
       "29",
       "50"
+    ],
+    "install.gif": [
+      "51",
+      "52",
+      "53",
+      "54",
+      "55",
+      "56"
     ]
   },
   "size": [

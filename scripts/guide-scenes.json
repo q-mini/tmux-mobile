@@ -48,5 +48,11 @@
   "29-ssh-setup": {"title": "SSH setup", "caption": "Setup shows the host key and asks once for the real password to install an app key. Nothing is saved."},
   "48-drag-split": {"title": "Drag to split", "caption": "Drag a session from the sidebar onto the right edge of a workspace. The highlighted half is where it opens."},
   "50-server-rename": {"title": "Rename a server", "caption": "A server's ⋯ → Rename edits its name in the list. Enter saves and Escape cancels."},
-  "49-trash-path": {"title": "Trash folder", "caption": "Type a folder in Settings and press Save. New deletions go there; older ones stay restorable in the old folder."}
+  "49-trash-path": {"title": "Trash folder", "caption": "Type a folder in Settings and press Save. New deletions go there; older ones stay restorable in the old folder."},
+  "51-phone-install": {"title": "Install on an iPhone", "caption": "Open the HTTPS address with /app in Safari. It shows the steps: Share, Add to Home Screen, Add."},
+  "52-phone-home-screen": {"title": "Home screen icon", "note": "Illustration · not a device screenshot", "caption": "The tmux icon appears on the home screen. Tap it to open the app without the browser bars."},
+  "53-phone-app": {"title": "Open the installed app", "note": "Real GUI · installed mode emulated", "caption": "The icon opens the app full screen. If it asks you to sign in, use the same key and tick Remember this device."},
+  "54-android-install": {"title": "Install on Android", "caption": "In Chrome on Android, open /app, then choose the menu, Add to Home screen and Install."},
+  "55-desktop-install": {"title": "Install on a desktop", "caption": "In Chrome or Edge, use the install icon in the address bar or Install app in the menu. On a Mac, Safari uses File, Add to Dock."},
+  "56-desktop-app": {"title": "The desktop app", "note": "Real GUI · installed mode emulated", "caption": "The installed app opens in its own window from the Dock, Start menu or app list, already signed in."}
 }

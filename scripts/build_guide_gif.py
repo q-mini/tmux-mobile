@@ -28,6 +28,7 @@ GROUPS = {
     'appearance': ['22', '45', '24'],
     'settings': ['03', '49', '04', '24', '33'],
     'servers': ['28', '29', '50'],
+    'install': ['51', '52', '53', '54', '55', '56'],
 }
 TOUR = ['02', '05', '30', '06', '07', '09', '18', '20', '21', '48', '11', '46', '47', '17', '22', '25']
 # (frames per second, longest action in seconds before fast-forwarding, final hold in seconds)
@@ -98,7 +99,7 @@ def main():
         label = 'STEP %d / %d' % (step, total) if total > 1 else 'GUIDE'
         draw.text((54, 16), label, font=step_font, fill='#58a6ff');offset = 54 + draw.textlength(label, font=step_font) + 14
         draw.text((offset, 13), scene['title'], font=title_font, fill='#f0f6fc')
-        note = 'fast-forward x%.1f' % speed if speed > 1.05 else 'Real GUI · fictional demo data'
+        note = 'fast-forward x%.1f' % speed if speed > 1.05 else scene.get('note') or 'Real GUI · fictional demo data'
         draw.text((WIDTH - 14 - draw.textlength(note, font=note_font), 18), note, font=note_font, fill='#f0b72f' if speed > 1.05 else '#8b949e')
         draw.rectangle((0, TOP - 3, round(WIDTH * step / total), TOP - 1), fill='#2f81f7')
         draw.rectangle((0, HEIGHT - BOTTOM, WIDTH, HEIGHT), fill='#161b22')

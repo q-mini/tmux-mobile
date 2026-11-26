@@ -71,6 +71,8 @@ Open     https://<random-name>.trycloudflare.com/#key=<access key>
 
 Open the `Open` link on your phone. You're signed in, and the key disappears from the address bar.
 
+**Step 4 (optional). Add it to your home screen or desktop.** Open the `Phone` address with `/app` at the end (`https://<random-name>.trycloudflare.com/app`). It shows the install steps for your browser: Share → Add to Home Screen on iPhone, ⋮ → Add to Home screen on Android, and the address-bar install icon in Chrome or Edge on a computer. The [walkthrough](docs/gui-guide.md#add-it-to-a-phone-home-screen-or-the-desktop) shows each one.
+
 ### Good to know
 
 - The phone address comes from a free Cloudflare tunnel and changes every time the tunnel restarts. Run `tmux-mobile url` again to get the new link.
@@ -94,6 +96,7 @@ Each section of the [walkthrough](docs/gui-guide.md) lists the steps, then shows
 
 | Start here | What the walkthrough covers |
 |---|---|
+| [Home screen and desktop install](docs/gui-guide.md#add-it-to-a-phone-home-screen-or-the-desktop) | `/app` install steps for iPhone, Android and Chrome/Edge, then opening the installed icon |
 | [First sign-in and new session](docs/gui-guide.md#2-create-a-new-tmux-session) | Empty state, initial key, server/name/start directory, opening a shell |
 | [Session management](docs/gui-guide.md#3-find-switch-and-manage-sessions) | Switching, search, drafts, rename, session deletion versus closing a view |
 | [Folders](docs/gui-guide.md#4-organize-sessions-into-folders) | Subfolders, drag/hold to move, shared organization, outside-click menus |

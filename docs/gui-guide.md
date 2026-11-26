@@ -18,6 +18,24 @@ An empty session list is normal. A clean installation starts with **Local** only
 
 The [complete recording](demos/all-features.gif) plays every scene in this guide in order. The animations below each cover one section.
 
+### Add it to a phone home screen or the desktop
+
+The app can be installed like a regular app, so it opens from an icon without the browser's address bar. Use the HTTPS address (the `Phone` line of `tmux-mobile start`); browsers only install web apps from HTTPS or from this computer's own `127.0.0.1` address.
+
+1. Open the address with `/app` at the end, for example `https://<random-name>.trycloudflare.com/app`. The page shows the install steps for the browser you are using.
+2. Follow the steps for your device:
+   - **iPhone / iPad (Safari):** tap **Share**, then **Add to Home Screen**, then **Add**. Turn on **Open as Web App** if it is shown.
+   - **Android (Chrome):** open the **⋮** menu, choose **Add to Home screen**, then **Install**.
+   - **Windows, Linux or macOS (Chrome / Edge):** click the install icon in the address bar, or choose **Install app** in the menu. On a desktop, the header's **Install app** button opens the same steps.
+   - **macOS (Safari 17 or later):** choose **File → Add to Dock**.
+3. Open the new **tmux** icon. It reconnects to the server and opens your sessions. If it asks you to sign in, use the same key and tick **Remember this device**.
+
+The phone address changes when the Cloudflare tunnel restarts. An icon installed from the old address then stops working; open the new `/app` address and install again.
+
+![Install steps on iPhone, Android and desktop, then open the installed app](demos/install.gif)
+
+The home screen in this clip is a drawing, because a headless browser cannot install apps or show a phone's home screen. The install pages and the app after launch are the real GUI; installed mode is emulated.
+
 ## 2. Create a new tmux session
 
 1. Click **New session ＋** at the bottom of the left sidebar. From the session manager, use its new-session button.
