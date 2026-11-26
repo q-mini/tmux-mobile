@@ -73,6 +73,8 @@ Open the `Open` link on your phone. You're signed in, and the key disappears fro
 
 **Step 4 (optional). Add it to your home screen or desktop.** Open the `Phone` address with `/app` at the end (`https://<random-name>.trycloudflare.com/app`). It shows the install steps for your browser: Share → Add to Home Screen on iPhone, ⋮ → Add to Home screen on Android, and the address-bar install icon in Chrome or Edge on a computer. The [walkthrough](docs/gui-guide.md#add-it-to-a-phone-home-screen-or-the-desktop) shows each one.
 
+![Install on iPhone, Android and desktop, then open the installed app](docs/demos/install.gif)
+
 ### Good to know
 
 - The phone address comes from a free Cloudflare tunnel and changes every time the tunnel restarts. Run `tmux-mobile url` again to get the new link.
